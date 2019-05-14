@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('home') }}
+{% endblock %}
+
+
+{% block body %}
+    <main role="main" class="flex-shrink-0">
+        <h1 class="cover-heading">Fantecolo</h1>
+        <p class="lead">Tabellone prenotazione campo di Fantecolo di Provaglio d'Iseo. Iscriviti e prenota GRATIS* il ns. campo da tennis</p>
+        <p class="lead">
+            <a href="{{ path('prenotazione_index') }}" class="btn btn-lg btn-secondary">Prenota</a>
+            <a href="{{ path('giocatore_registrazione') }}" class="btn btn-lg btn-secondary">Iscriviti</a>
+        </p>
+        <small class="mt-3">* Per tutti, residenti e non.</small>
+    </main>
+
+    <footer class="footer mt-auto py-3">
+        <p>Sito realizzato da <a href="mailto:">Marco Natalini</a></p>
+    </footer>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('home') }}
+{% endblock %}

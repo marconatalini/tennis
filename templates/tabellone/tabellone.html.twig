@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('tabellone') }}
+{% endblock %}
+
+{% block body %}
+    <div id="calendar"></div>
+    <a class="hide" id="btnPrenota" href="{{ path('prenotazione_prenota') }}"></a>
+    <a class="hide" id="btnElimina" href="{{ path('prenotazione_elimina') }}"></a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        // window.location.replace('http://www.example.com')
+        btnPrenota = document.getElementById('btnPrenota')
+        function prenota(ora){
+            window.location.replace(btnPrenota.getAttribute('href').concat('?ora=').concat(ora))
+        }
+    </script>
+
+    <script type="text/javascript">
+        // window.location.replace('http://www.example.com')
+        btnElimina = document.getElementById('btnElimina')
+        function elimina(id){
+            window.location.replace(btnElimina.getAttribute('href').concat('?id=').concat(id))
+        }
+    </script>
+
+
+    {{ encore_entry_script_tags('tabellone') }}
+
+{% endblock %}
