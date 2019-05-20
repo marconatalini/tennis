@@ -1,5 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.css";
-/*@import "~@fortawesome/fontawesome-free/css/all.css";*/
+@import "~@fortawesome/fontawesome-free/css/all.css";
 /*@import "~jquery-ui/themes/base/all.css";*/
 
 
@@ -16,4 +16,13 @@
     .bd-placeholder-img-lg {
         font-size: 3.5rem;
     }
+}
+
+body {
+    height: 100%;
+    background: url("../images/home.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: black;
+    opacity: 50%;
 }

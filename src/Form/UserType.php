@@ -23,6 +23,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 
 class UserType extends AbstractType
 {
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -32,6 +33,7 @@ class UserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder->add( 'username', TextType::class)
             ->add('email', EmailType::class)
             ->add('plainPassword', RepeatedType::class, [
@@ -42,7 +44,7 @@ class UserType extends AbstractType
             ->add('termAgreed', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => new IsTrue(),
-                'label' => 'Ho letto e accetto le condizioni.'
+                'label' => 'Ho letto e rispetterò il regolamento.'
             ])
             ->add('Registrati', SubmitType::class);
     }

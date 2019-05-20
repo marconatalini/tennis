@@ -14,7 +14,7 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <img class="mb-4" src="{{ asset('build/images/LogoFantecoloTennis.png') }}" alt="" width="144" height="144">
     <h1 class="h3 mb-3 font-weight-normal">Autenticarsi, per favore.</h1>
     <label for="inputEmail" class="sr-only">Email</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>

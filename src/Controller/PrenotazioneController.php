@@ -12,9 +12,9 @@ namespace App\Controller;
 use App\Entity\Prenotazione;
 use App\Form\PrenotazioneType;
 use App\Repository\PrenotazioneRepository;
+use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,11 +26,19 @@ class PrenotazioneController extends AbstractController
 
     /**
      * @Route("/", name="prenotazione_index")
-     * @IsGranted("ROLE_USER")
      */
-    public function index()
+    public function index(PrenotazioneRepository $prenotazioneRepository)
     {
-        return $this->render('tabellone/tabellone.html.twig');
+        $user = $this->getUser();
+        $idsPrenotazioniGiocatore = $prenotazioneRepository->findIdsPrenotati($user);
+        $prenotazioniOggi = $prenotazioneRepository->findPrenotazioneOggi($user);
+
+        //var_dump($prenotazioniOggi);die;
+
+        return $this->render('tabellone/tabellone.html.twig', [
+            'idsPrenotazioniGiocatore' => $idsPrenotazioniGiocatore,
+            'prenotazioniOggi' => $prenotazioniOggi,
+        ]);
     }
 
     /**
@@ -57,6 +65,7 @@ class PrenotazioneController extends AbstractController
      */
     public function prenota(Request $request, PrenotazioneRepository $prenotazioneRepository)
     {
+        /**@var $prenotazione Prenotazione*/
         $prenotazione = new Prenotazione();
 
         $form = $this->createForm(PrenotazioneType::class, $prenotazione);
@@ -65,23 +74,23 @@ class PrenotazioneController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
 
             $prenotazione = $form->getData();
-            if (null === $prenotazione->getTitle()){
-                $prenotazione->setTitle($this->getUser()->getUsername());
-            }
+            $prenotazione->setTitle($this->getUser()->getUsername(). ': '. $prenotazione->getTitle());
             $ore = $request->get('prenotazione')['ore'];
             $end =  clone $prenotazione->getStart();
             date_modify($end, "+". $ore ." hour");
             $prenotazione->setEnd($end);
             $prenotazione->setTimestamp();
 
-            if ($prenotazioneRepository->findPrenotazioneOggi() !== []){
+            if ($prenotazioneRepository->findPrenotazioneOggi($this->getUser()) !== []){
                 $this->addFlash('danger', 'Spiacenti, hai già fatto una prenotazione oggi.');
+            } elseif ($prenotazioneRepository->findOverlap($prenotazione->getStart(), $end) !== []) {
+                $this->addFlash('danger', 'Spiacenti, il campo è già occupato.');
             }else{
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($prenotazione);
                 $em->flush();
             }
-            return $this->redirectToRoute('tabellone_index');
+            return $this->redirectToRoute('prenotazione_index');
         } else {
             $start = new \DateTime($request->get('ora'));
             $prenotazione->setStart($start);

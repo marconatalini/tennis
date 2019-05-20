@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.8.2",
         "@symfony/webpack-encore": "^0.27.0",
         "bootstrap": "^4.3.1",
         "core-js": "^3.0.0",
@@ -16,6 +17,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@fullcalendar/bootstrap": "^4.1.0",
         "@fullcalendar/core": "^4.1.0",
         "@fullcalendar/daygrid": "^4.1.0",
         "@fullcalendar/interaction": "^4.1.0",

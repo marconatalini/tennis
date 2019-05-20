@@ -1,0 +1,14 @@
+{% block checkbox_row -%}
+    <div class="form-group row">{#--#}
+        <div class="{{ block('form_label_class') }}"></div>{#--#}
+        <div class="{{ block('form_group_class') }}">
+            <div class="form-check">
+                <input type="checkbox" id="user_termAgreed" name="user[termAgreed]" required="required" class="form-check-input" value="1">
+                <label class="form-check-label required" for="user_termAgreed"> Ho letto e rispetterò il <a href="{{ path('regolamento') }}">regolamento</a>
+                </label>
+            </div>
+            {{- form_help(form) -}}
+            {{- form_errors(form) -}}
+        </div>{#--#}
+    </div>
+{%- endblock checkbox_row %}

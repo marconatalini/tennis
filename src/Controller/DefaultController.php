@@ -21,4 +21,12 @@ class DefaultController extends AbstractController
         return $this->render('default/home.html.twig');
     }
 
+    /**
+     * @Route("/regolamento", name="regolamento")
+     */
+    public function regolamento()
+    {
+        return $this->render('default/regolamento.html.twig');
+    }
+
 }

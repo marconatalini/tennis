@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Prenotazione;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,6 +21,19 @@ class PrenotazioneRepository extends ServiceEntityRepository
         parent::__construct($registry, Prenotazione::class);
     }
 
+    public function findIdsPrenotati($user)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->select('p.id')
+            ->where('p.user = :user')
+            ->andWhere('p.start >= :now')
+            ->setParameter('user', $user)
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findPrenotazioneWeek($start, $end)
     {
         $qb = $this->createQueryBuilder('p');
@@ -32,17 +47,39 @@ class PrenotazioneRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findPrenotazioneOggi()
+    public function findPrenotazioneOggi($user)
     {
         $qb = $this->createQueryBuilder('p');
 
-        return $qb->where('p.timestamp >= :oggi')
+        return $qb->select('p.id')
+            ->where('p.timestamp >= :oggi')
             ->andWhere('p.timestamp <= :domani')
+            ->andWhere('p.user = :user')
+            ->andWhere('p.start >= :now')
             ->setParameter('oggi', \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 00:00:00")))
             ->setParameter('domani', \DateTime::createFromFormat( "Y-m-d H:i:s", date("Y-m-d 23:59:59")))
+            ->setParameter('now', new \DateTime())
+            ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
 
+    }
+
+    /**
+     * @param $end \DateTime
+     * @param $start \DateTime
+     * @return Prenotazione[]
+     */
+    public function findOverlap($start, $end)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where('p.start > :start')
+            ->andWhere('p.start < :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**
