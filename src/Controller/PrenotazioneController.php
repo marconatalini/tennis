@@ -25,6 +25,17 @@ class PrenotazioneController extends AbstractController
 {
 
     /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
+
+    public function __construct(\Swift_Mailer $mailer)
+    {
+
+        $this->mailer = $mailer;
+    }
+
+    /**
      * @Route("/", name="prenotazione_index")
      */
     public function index(PrenotazioneRepository $prenotazioneRepository)
@@ -80,6 +91,7 @@ class PrenotazioneController extends AbstractController
             date_modify($end, "+". $ore ." hour");
             $prenotazione->setEnd($end);
             $prenotazione->setTimestamp();
+            $mail = $request->get('prenotazione')['email'];
 
             if ($prenotazioneRepository->findPrenotazioneOggi($this->getUser()) !== []){
                 $this->addFlash('danger', 'Spiacenti, hai già fatto una prenotazione oggi.');
@@ -89,6 +101,10 @@ class PrenotazioneController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($prenotazione);
                 $em->flush();
+                if ($mail) {
+                    $this->prenotazioneMail($prenotazione, $mail);
+                    $this->addFlash('success', $mail . 'è stato avvisato');
+                }
             }
             return $this->redirectToRoute('prenotazione_index');
         } else {
@@ -104,15 +120,48 @@ class PrenotazioneController extends AbstractController
     }
 
     /**
-     * @Route("/json", methods={"GET"}, name="prenotazione_json")
+     * @Route("/json", methods={"POST"}, name="prenotazione_json")
      */
     public function prenotazioneJson(Request $request, PrenotazioneRepository $prenotazioneRepository)
     {
+        $user = $this->getUser();
         $start = $request->get('start');
         $end = $request->get('end');
-        $result = $prenotazioneRepository->findPrenotazioneWeek($start, $end);
+        $result = $prenotazioneRepository->findPrenotazioneWeek($start, $end, $user);
         return $this->json($result);
     }
 
+    /**
+     * @Route("/jsonUser", methods={"POST"}, name="prenotazione_jsonUser")
+     */
+    public function prenotazioneJsonUser(Request $request, PrenotazioneRepository $prenotazioneRepository)
+    {
+        $user = $this->getUser();
+        $start = $request->get('start');
+        $end = $request->get('end');
+        $result = $prenotazioneRepository->findPrenotazioneWeekUser($start, $end, $user);
+        return $this->json($result);
+    }
+
+    /**
+     * @param Prenotazione $prenotazione
+     * @param String $email
+     */
+    public function prenotazioneMail(Prenotazione $prenotazione, $email)
+    {
+        $message = (new \Swift_Message('Prenotazione Tennis a Fantecolo'))
+            ->setFrom('noreply@natalinitrasporti.it')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView('prenotazione/invito.html.twig',[
+                        'nome' => $prenotazione->getUser()->getUsername(),
+                        'data' => $prenotazione->getStart(),
+                    ]
+                ),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
+    }
 
 }

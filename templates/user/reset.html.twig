@@ -1,0 +1,8 @@
+<img src="{{ asset('build/images/LogoFantecoloTennis.png') }}" alt="home logo" width="72" height="72">
+<h3>Reset password!</h3>
+
+<p>Ciao {{ name }},<br>
+    hai richiesto di modificare la tua password. Se non è così, ignora questa mail.</p>
+
+<p>Clicca su questo <a href="{{ absolute_url(path('giocatore_modifica'))}}?activation={{ activationLink }}&username={{ name }}">LINK</a>
+    per modificare la password del tuo accout.</p>

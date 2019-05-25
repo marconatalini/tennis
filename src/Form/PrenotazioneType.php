@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,12 +50,11 @@ class PrenotazioneType extends AbstractType
                 'choices' => [
                     '1 ora' => 1,
                     '2 ore' => 2,
-                    '3 ore' => 3,
-                    '4 ore' => 4,
                 ],
             ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
+                'label' => 'Utente',
                 'choice_label' => 'username',
                 'attr' => [
                     'readonly' => 'readonly'
@@ -62,9 +62,16 @@ class PrenotazioneType extends AbstractType
             ])
             ->add('title', TextType::class, [
                 'required' => false,
+                'label'=> 'vs.',
+                'help' => 'Nome avversario.'
+            ])
+            ->add('email', EmailType::class, [
+                'required' => false,
+                'mapped' => false,
+                'label' => 'eMail',
+                'help' => 'Scrivendo qui un indirizzo mail, manderemo un avviso/invito al destinatario'
             ])
             ->add('Prenota', SubmitType::class);
-
     }
 
 

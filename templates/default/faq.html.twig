@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Posso prenotare un ora fissa per tutte le settimane?
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    No. Tutti dobbiamo avere la possibilità di giocare un ora a ns. piacimento. Per questo ogni giorno si può fare massimo una prenotazione, fino a 10 giorni.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Posso cancellare una prenotazione?
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    Certamente! la clicchi e si cancella. Dopo puoi prenotare un altra ora o lasciare semplicemente il campo libero. Sei caldamente invitato a cancellare prima possibile le ore che non potrai giocare per dare modo a noi tutti di poterle giocare.<br>
+                    Perchè questo sistema funzioni lo dobbiamo usare onestamente.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Il campo è prenotato ma non c'è nessuno.
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    La prenotazione si può cancellare solo prima che abbia inizio. Magari il campo s'è liberato prima... oppure manda una segnalazione compilando questo
+                    <a href="#">modulo</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

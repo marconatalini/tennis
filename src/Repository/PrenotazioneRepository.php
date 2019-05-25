@@ -34,12 +34,31 @@ class PrenotazioneRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findPrenotazioneWeek($start, $end)
+    public function findPrenotazioneWeek($start, $end, $user)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($user) {
+            $qb->andWhere('p.user != :user')
+                ->setParameter('user', $user);
+        }
+        return $qb->andWhere('p.start >= :start')
+            ->andWhere('p.end <= :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->select('p.id','p.start', 'p.end', 'p.title')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPrenotazioneWeekUser($start, $end, $user)
     {
         $qb = $this->createQueryBuilder('p');
 
         return $qb->where('p.start >= :start')
             ->andWhere('p.end <= :end')
+            ->andWhere('p.user = :user')
+            ->setParameter('user', $user)
             ->setParameter('start', $start)
             ->setParameter('end', $end)
             ->select('p.id','p.start', 'p.end', 'p.title')

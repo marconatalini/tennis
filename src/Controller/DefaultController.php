@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,9 +17,13 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function home()
+    public function home(UserRepository $userRepository)
     {
-        return $this->render('default/home.html.twig');
+        $count = $userRepository->countPlayer();
+
+        return $this->render('default/home.html.twig', [
+            'count' => $count
+        ]);
     }
 
     /**
@@ -28,5 +33,14 @@ class DefaultController extends AbstractController
     {
         return $this->render('default/regolamento.html.twig');
     }
+
+    /**
+     * @Route("/faq", name="faq")
+     */
+    public function faq()
+    {
+        return $this->render('default/faq.html.twig');
+    }
+
 
 }

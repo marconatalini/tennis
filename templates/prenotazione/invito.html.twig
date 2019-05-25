@@ -1,10 +1,11 @@
 <img src="{{ asset('build/images/LogoFantecoloTennis.png') }}" alt="home logo" width="72" height="72">
-<h3>Ci sei quasi! Completa la tua iscrizione.</h3>
+<h3>Prenotazione campo</h3>
 
-<p>Ciao {{ name }},<br>
-    siamo lieti di sapere che vuoi unirti al nostro gruppo di appassionati di tennis di livello scarso!</p>
+<p>Ciao,<br>
+    {{ nome }} ti aspetta al campo di Fantecolo il {{ data|date('d.m.Y') }} alle {{ data|date('H:i')}}</p>
 
-<p>Clicca su questo <a href="{{ absolute_url(path('giocatore_attivazione'))}}?activation={{ activationLink }}&username={{ name }}">LINK</a> per attivare il tuo accout.</p>
+<p>Clicca per vedere le prenotazioni in questo
+    <a href="{{ absolute_url(path('prenotazione_index'))}}">LINK</a></p>
 
 <p>Ti ricordiamo brevemente alcune regole:</p>
 <ul>

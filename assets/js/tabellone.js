@@ -18,13 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
         defaultView: 'timeGridWeek',
         header: {
             left: 'prev',
-            center: 'title',
+            center: 'title', //title
             right: 'next',
         },
 
         validRange: function(nowDate) {
             return {
-                start: nowDate,
+                start: moment().add(-7, 'days').toDate(),
                 end: moment().add(10,'days').toDate()
             };
         },
@@ -34,14 +34,26 @@ document.addEventListener('DOMContentLoaded', function() {
         slotDuration: '00:30:00',
         minTime: '07:00:00',
         maxTime: '24:00:00',
-        events: 'http://tennis.locale/prenotazione/json',
+        eventSources: [
+            {
+                url: 'http://tennis.locale/prenotazione/json',
+                method: 'POST',
+            },
+            {
+                url: 'http://tennis.locale/prenotazione/jsonUser',
+                method: 'POST',
+                color: 'blue'
+            },
+        ],
 
         dateClick: function(info) {
             //alert('Clicked on: ' + info.dateStr);
-            if (!giaPrenotato()){
-                prenota(info.dateStr);
-            } else {
-                alert('Oggi hai già fatto una prenotazione.');
+            if (moment(info.date) > moment()) { // verifico che il click non sia sul passato
+                if (!giaPrenotato()) {
+                    prenota(info.dateStr);
+                } else {
+                    alert('Oggi hai già fatto una prenotazione.');
+                }
             }
             //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
             //alert('Current view: ' + info.view.type);

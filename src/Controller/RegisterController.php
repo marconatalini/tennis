@@ -9,6 +9,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\PasswordType;
+use App\Form\RestoreType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +29,65 @@ class RegisterController extends AbstractController
     {
 
         $this->mailer = $mailer;
+    }
+
+    /**
+     * @Route("/recupera", name="giocatore_recuperaPassword")
+     */
+    public function recuperaPassword(Request $request, UserRepository $userRepository)
+    {
+        $form = $this->createForm(RestoreType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $email = $form->getData()['email'];
+            $user = $userRepository->findOneBy(['email' => $email]);
+            if (null !== $user){
+                $this->resetMail($user);
+                $this->addFlash('success', 'Ti abbiamo spedito una mail per resettare la password');
+                return $this->redirectToRoute('home');
+            } else {
+                $this->addFlash('danger', 'Nessun utente ha questo indirizzo mail: '. $email);
+            }
+        }
+
+        return $this->render('user/recupera.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/modify", name="giocatore_modifica")
+     */
+    public function modify(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $key = $request->get('activation');
+        if (null !== $key) {
+            $giocatore = $userRepository->findOneBy([
+                'activationKey' => $key,
+                'username' => $request->get('username'),
+            ]);
+        }
+
+        $form = $this->createForm(UserType::class, $giocatore);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $password = $passwordEncoder->encodePassword($giocatore, $giocatore->getPlainPassword());
+            $giocatore->setPassword($password);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($giocatore);
+            $em->flush();
+
+            $this->addFlash('success', 'Il tuo account è stato modificato.');
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('user/register.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
 
 
@@ -59,6 +120,23 @@ class RegisterController extends AbstractController
         return $this->render('user/register.html.twig',[
            'form' => $form->createView()
         ]);
+    }
+
+    public function resetMail(User $user)
+    {
+        $message = (new \Swift_Message('Fantecolo Tennis [reset Password]'))
+            ->setFrom('noreply@natalinitrasporti.it')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView('user/reset.html.twig',[
+                        'name' => $user->getUsername(),
+                        'activationLink' => $user->getActivationKey(),
+                    ]
+                ),
+                'text/html'
+            );
+
+        $this->mailer->send($message);
     }
 
     public function activationMail(User $user)
