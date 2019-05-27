@@ -8,6 +8,9 @@ import moment from "moment";
 document.addEventListener('DOMContentLoaded', function() {
     let calendarEl = document.getElementById('calendar');
 
+    let urlJson = document.getElementById('urlPrenotazioniJson');
+    let urlJsonUser = document.getElementById('urlPrenotazioniJsonUser');
+
     let calendar = new Calendar(calendarEl, {
         locale: 'it',
         timeZone: 'UTC',
@@ -36,11 +39,13 @@ document.addEventListener('DOMContentLoaded', function() {
         maxTime: '24:00:00',
         eventSources: [
             {
-                url: 'http://tennis.locale/prenotazione/json',
+                // url: 'http://tennis.locale/prenotazione/json',
+                url: urlJson.getAttribute('href'),
                 method: 'POST',
             },
             {
-                url: 'http://tennis.locale/prenotazione/jsonUser',
+                // url: 'http://tennis.locale/prenotazione/jsonUser',
+                url: urlJsonUser.getAttribute('href'),
                 method: 'POST',
                 color: 'blue'
             },

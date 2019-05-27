@@ -11,6 +11,8 @@
     <div class="prenotazioniOggiUser" data-prenotazioni-oggi="{{ prenotazioniOggi|json_encode|e('html_attr') }}"></div>
     <a class="hide" id="btnPrenota" href="{{ path('prenotazione_prenota') }}"></a>
     <a class="hide" id="btnElimina" href="{{ path('prenotazione_elimina') }}"></a>
+    <a class="hide" id="urlPrenotazioniJson" href="{{ path('prenotazione_json') }}"></a>
+    <a class="hide" id="urlPrenotazioniJsonUser" href="{{ path('prenotazione_jsonUser') }}"></a>
 {% endblock %}
 
 {% block javascripts %}
