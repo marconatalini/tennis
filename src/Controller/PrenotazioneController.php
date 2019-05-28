@@ -150,7 +150,7 @@ class PrenotazioneController extends AbstractController
     public function prenotazioneMail(Prenotazione $prenotazione, $email)
     {
         $message = (new \Swift_Message('Prenotazione Tennis a Fantecolo'))
-            ->setFrom('noreply@natalinitrasporti.it')
+            ->setFrom('noreply@fantecolotennis.it')
             ->setTo($email)
             ->setBody(
                 $this->renderView('prenotazione/invito.html.twig',[

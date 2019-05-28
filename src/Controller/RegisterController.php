@@ -125,7 +125,7 @@ class RegisterController extends AbstractController
     public function resetMail(User $user)
     {
         $message = (new \Swift_Message('Fantecolo Tennis [reset Password]'))
-            ->setFrom('noreply@natalinitrasporti.it')
+            ->setFrom('noreply@fantecolotennis.it')
             ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView('user/reset.html.twig',[
@@ -142,7 +142,7 @@ class RegisterController extends AbstractController
     public function activationMail(User $user)
     {
         $message = (new \Swift_Message('Fantecolo Tennis'))
-            ->setFrom('noreply@natalinitrasporti.it')
+            ->setFrom('noreply@fantecolotennis.it')
             ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView('user/activation.html.twig',[
