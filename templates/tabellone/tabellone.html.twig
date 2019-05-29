@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="bg-light" id="calendar"></div>
+    <div class="" id="calendar"></div>
     <div class="prenotazioniUser" data-ids-prenotazioni-giocatore="{{ idsPrenotazioniGiocatore|json_encode|e('html_attr') }}"></div>
     <div class="prenotazioniOggiUser" data-prenotazioni-oggi="{{ prenotazioniOggi|json_encode|e('html_attr') }}"></div>
     <a class="hide" id="btnPrenota" href="{{ path('prenotazione_prenota') }}"></a>

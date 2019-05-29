@@ -103,7 +103,7 @@ class PrenotazioneController extends AbstractController
                 $em->flush();
                 if ($mail) {
                     $this->prenotazioneMail($prenotazione, $mail);
-                    $this->addFlash('success', $mail . 'è stato avvisato');
+                    $this->addFlash('success', $mail . ' è stato avvisato con una mail.');
                 }
             }
             return $this->redirectToRoute('prenotazione_index');

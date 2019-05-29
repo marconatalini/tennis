@@ -40,8 +40,8 @@
         </button>
         {% if error %}
             <div>
-                <a href="{{ path('giocatore_registrazione') }}">Registrati GRATIS</a>
-                <p> oppure </p><a class="ml-auto" href="{{ path('giocatore_recuperaPassword') }}">Password dimenticata?</a>
+                <a class="ml-auto" href="{{ path('giocatore_recuperaPassword') }}">Password dimenticata?</a>
+                <p class="small"> oppure <a href="{{ path('giocatore_registrazione') }}">Registrati GRATIS</a></p>
             </div>
         {% endif %}
 
