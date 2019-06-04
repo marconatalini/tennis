@@ -2,3 +2,7 @@
 @import "~@fullcalendar/daygrid/main.css";
 @import "~@fullcalendar/timegrid/main.css";
 @import "~@fullcalendar/bootstrap/main.css";
+
+body {
+    background-color: #686868;
+}

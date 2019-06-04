@@ -10,9 +10,11 @@ namespace App\Controller;
 
 
 use App\Entity\Prenotazione;
+use App\Entity\User;
 use App\Form\PrenotazioneType;
 use App\Repository\PrenotazioneRepository;
 use phpDocumentor\Reflection\Types\This;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,6 +70,43 @@ class PrenotazioneController extends AbstractController
         $this->addFlash('success', 'Hai cancellato la tua prenotazione.');
 
         return $this->redirectToRoute('prenotazione_index');
+    }
+
+    /**
+     * @Route("/giocoadesso", name="prenotazione_prenota_adesso")
+     */
+    public function prenotaAdessoUnOra(UserRepository $repository, PrenotazioneRepository $prenotazioneRepository)
+    {
+        /** @var  $prenotazione Prenotazione*/
+        $prenotazione = new Prenotazione();
+
+        if ($this->getUser()) {
+            /** @var User $user */
+            $user = $this->getUser();
+            $prenotazione->setTitle('ora gioca: '.$user->getUsername());
+        } else {
+            $user = $repository->find(1);
+            $niks = ['Roger', 'Nole', 'Rafa', 'Delpo', 'Andree', 'Pit', 'Martina', 'Flavia', 'Serena'];
+            $prenotazione->setTitle($niks[array_rand($niks)]);
+        }
+
+        $prenotazione->setUser($user)
+            ->setStart(new \DateTime('now +2 hour'))
+            ->setEnd(new \DateTime('now +3 hour'))
+            ->setTimestamp()
+            ;
+
+        if ($prenotazioneRepository->findSovrapposizione($prenotazione->getStart(), $prenotazione->getEnd()) !== []) {
+            $this->addFlash('danger', 'Spiacenti, il campo è già occupato.');
+            return $this->redirectToRoute('prenotazione_index');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($prenotazione);
+        $em->flush();
+
+        return $this->redirectToRoute('prenotazione_index');
+
     }
 
     /**

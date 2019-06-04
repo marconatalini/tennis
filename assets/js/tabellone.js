@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let calendar = new Calendar(calendarEl, {
         locale: 'it',
-        timeZone: 'UTC',
+        timeZone: 'Europe/Rome',
         contentHeight: 'auto',
         plugins: [ timeGridPlugin, interactionPlugin, bootstrapPlugin ],
         themeSystem: 'bootstrap',

@@ -101,6 +101,23 @@ class PrenotazioneRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $end \DateTime
+     * @param $start \DateTime
+     * @return Prenotazione[]
+     */
+    public function findSovrapposizione($start, $end)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where(':start BETWEEN p.start AND p.end')
+            ->orWhere(':end BETWEEN p.start AND p.end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Prenotazione[] Returns an array of Prenotazione objects
     //  */
