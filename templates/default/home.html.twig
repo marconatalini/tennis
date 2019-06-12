@@ -8,12 +8,11 @@
 
 {% block body %}
     <main role="main" class="flex-shrink-0">
-        <img src="{{ asset('build/images/LogoFantecoloTennis.png') }}" alt="home logo" width="200" height="200">
-        <p class="lead">Prenotazioni campo tennis di Fantecolo di Provaglio d'Iseo. Iscriviti e prenota GRATIS il ns. campo da tennis.<br>
-        Siamo in <strong>{{ count }}</strong> iscritti. Unisciti a noi!</p>
-        <h3><a href="{{ path('prenotazione_index') }}" class="btn btn-lg btn-primary">Prenota</a></h3>
-        <h3><a href="{{ path('prenotazione_prenota_adesso') }}" class="btn btn-lg btn-success">Gioca 1 ora adesso</a></h3>
-
+        <img src="{{ asset('build/images/LogoGSfantecolo.png') }}" alt="home logo" width="400" height="auto">
+        <p class="lead">Prenotazioni campo tennis di Fantecolo di Provaglio d'Iseo. Iscriviti e prenota GRATIS il ns. campo da tennis.</p>
+        <p class="small">Siamo in <strong>{{ count }}</strong> iscritti. Unisciti a noi!</p>
+        <a href="{{ path('prenotazione_index') }}" class="btn btn-primary">Prenota</a>
+        <a href="{{ path('prenotazione_prenota_adesso') }}" class="btn btn-success">Gioca 1 ora adesso</a>
     </main>
 
     <footer class="footer mt-auto py-3">

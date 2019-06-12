@@ -2,6 +2,8 @@
 @import "~@fortawesome/fontawesome-free/css/all.css";
 /*@import "~jquery-ui/themes/base/all.css";*/
 
+/*pick the Lato fonts individually to avoid importing the entire font family*/
+@import "~roboto-font/css/fonts.css";
 
 .bd-placeholder-img {
     font-size: 1.125rem;
@@ -19,10 +21,24 @@
 }
 
 body {
+    font-family: 'Roboto', serif;
     height: 100%;
     background: url("../images/homeBW.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: black;
-    opacity: 50%;
+}
+
+a.navbar-brand{
+    /*background-size: 400px auto;*/
+    width: 100px;
+    height: 100px;
+    background: url("../images/LogoHeader.png");
+    background-repeat: no-repeat;
+}
+
+.watermark-logo{
+    position: fixed;
+    right: 5px;
+    bottom: 2px;
 }

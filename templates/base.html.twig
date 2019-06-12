@@ -11,9 +11,7 @@
 </head>
 <body class="d-flex flex-column h-100 text-center">
 <nav class="navbar navbar-expand-md navbar-light">
-    <a class="navbar-brand" href="{{ path('home') }}">
-        FANTECOLO tennis
-    </a>
+    <a class="navbar-brand" href="{{ path('home') }}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -30,6 +28,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('faq') }}">FAQ</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('contatto') }}">Contattaci</a>
             </li>
         </ul>
         {% if is_granted('ROLE_USER') %}

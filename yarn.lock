@@ -5031,6 +5031,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+roboto-font@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/roboto-font/-/roboto-font-0.1.0.tgz#c3ee19d82ca087bc742423c0f9974384555e19fd"
+  integrity sha1-w+4Z2Cygh7x0JCPA+ZdDhFVeGf0=
+
 run-queue@^1.0.0, run-queue@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/run-queue/-/run-queue-1.0.3.tgz#e848396f057d223f24386924618e25694161ec47"
