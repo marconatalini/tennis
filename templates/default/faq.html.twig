@@ -13,7 +13,9 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    No. Tutti dobbiamo avere la possibilità di giocare un ora a ns. piacimento. Per questo ogni giorno si può fare massimo una prenotazione, fino a 10 giorni.
+                    No. Tutti dobbiamo avere la possibilità di giocare un ora a ns. piacimento.
+                    Per questo ogni giorno puoi fare una sola prenotazione per qualsiasi momento da qui a 10 gg.
+                    Puoi sempre recarti al campo nei momenti liberi e occupare l'ora mentre giochi.
                 </div>
             </div>
         </div>
@@ -27,8 +29,8 @@
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
-                    Certamente! Entri, clicchi sull'ora e si cancella.<br>
-                    Nello stesso giorno prenotare un altra ora o lasciare semplicemente il campo libero. Sei caldamente invitato a cancellare prima possibile le ore che non potrai giocare per dare modo a noi tutti di poterle giocare.<br>
+                    Certamente! Entri nel tabellone, clicchi sulla tua ora e si cancella.<br>
+                    Sei caldamente invitato a cancellare prima possibile le ore che non potrai giocare per dare modo a noi tutti di poterle prenotare.<br>
                 </div>
             </div>
         </div>
@@ -42,8 +44,54 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div class="card-body">
-                    La prenotazione si può cancellare solo prima che abbia inizio. Magari il campo s'è liberato prima... oppure manda una segnalazione compilando questo
+                    La prenotazione si può cancellare solo prima che abbia inizio. Magari hanno giocato meno del previsto... oppure manda una segnalazione compilando questo
                     <a href="{{ path('contatto') }}">modulo</a>.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                        Posso giocare quando voglio?
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    Certo, il campo è aperto a tutti e sempre ma dalle 13 alle 15 vanno rispettate le ore di silenzio.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingFive">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                        Posso giocare senza prenotare?
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    Certo, ti chiediamo solo di usare il tasto
+                    <a href="{{ path('prenotazione_prenota_adesso') }}" class="btn btn-success m-2">Gioca 1 ora adesso</a>
+                    quando occupi il campo così che risulti occupato agli altri e si possa sapere quanto viene usato.
+                    <br>Sapere che il campo è un bene pubblico utilizzato alimenta la speranza di poterlo mantenere.
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingSix">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
+                        Non trovo la risposta alla mia domanda.
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseSix" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    Manda la tua domanda compilando questo <a href="{{ path('contatto') }}">modulo</a>. Saremo lieti di fornirti le informazioni che chiedi.
                 </div>
             </div>
         </div>

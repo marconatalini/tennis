@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
         allDaySlot: false,
         editable: false,
         slotDuration: '00:30:00',
-        minTime: '07:00:00',
-        maxTime: '24:00:00',
+        minTime: '09:00:00',
+        maxTime: '22:00:00',
         eventSources: [
             {
                 // url: 'http://tennis.locale/prenotazione/json',
@@ -52,14 +52,19 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
 
         dateClick: function(info) {
-            //alert('Clicked on: ' + info.dateStr);
-            if (moment(info.date) > moment()) { // verifico che il click non sia sul passato
-                if (!giaPrenotato()) {
-                    prenota(info.dateStr);
-                } else {
-                    alert('Oggi hai già fatto una prenotazione.');
+            // alert('Clicked on: ' + moment(info.date).hour());
+            if (moment(info.date).hour() == 15 || moment(info.date).hour() == 16){
+                alert('Non prenotare in queste ore. Meglio far silenzio.')
+            } else {
+                if (moment(info.date) > moment()) { // verifico che il click non sia sul passato
+                    if (!giaPrenotato()) {
+                        prenota(info.dateStr);
+                    } else {
+                        alert('Oggi hai già fatto una prenotazione.');
+                    }
                 }
             }
+
             //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
             //alert('Current view: ' + info.view.type);
             // change the day's background color just for fun
