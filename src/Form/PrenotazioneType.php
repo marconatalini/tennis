@@ -57,7 +57,7 @@ class PrenotazioneType extends AbstractType
                 'label' => 'Utente',
                 'choice_label' => 'username',
                 'attr' => [
-                    'readonly' => 'readonly'
+                    'disabled' => 'disabled'
                 ]
             ])
             ->add('title', TextType::class, [

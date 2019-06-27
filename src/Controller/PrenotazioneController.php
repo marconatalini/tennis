@@ -124,6 +124,7 @@ class PrenotazioneController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
 
             $prenotazione = $form->getData();
+            $prenotazione->setUser($this->getUser());
             $prenotazione->setTitle($this->getUser()->getUsername(). ': '. $prenotazione->getTitle());
             $ore = $request->get('prenotazione')['ore'];
             $end =  clone $prenotazione->getStart();
