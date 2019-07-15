@@ -74,4 +74,14 @@ Encore
     })
 ;
 
-module.exports = Encore.getWebpackConfig();
+// Use polling instead of inotify
+const config = Encore.getWebpackConfig();
+config.watchOptions = {
+    poll: true,
+};
+
+// Export the final configuration
+module.exports = config;
+
+
+// module.exports = Encore.getWebpackConfig();

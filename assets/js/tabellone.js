@@ -7,6 +7,19 @@ import moment from "moment";
 
 document.addEventListener('DOMContentLoaded', function() {
     let calendarEl = document.getElementById('calendar');
+    let width = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+    let height = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+
+    let dayCount = 5;
+
+    if (width<355){
+        dayCount = 3
+    }
 
     let urlJson = document.getElementById('urlPrenotazioniJson');
     let urlJsonUser = document.getElementById('urlPrenotazioniJsonUser');
@@ -18,12 +31,16 @@ document.addEventListener('DOMContentLoaded', function() {
         plugins: [ timeGridPlugin, interactionPlugin, bootstrapPlugin ],
         themeSystem: 'bootstrap',
 
-        defaultView: 'timeGridWeek',
+        defaultView: 'timeGrid',
         header: {
             left: 'prev',
             center: 'title', //title
             right: 'next',
         },
+
+        // windowResize: function(view) {
+        //     alert(view.duration);
+        // },
 
         validRange: function(nowDate) {
             return {
@@ -31,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 end: moment().add(10,'days').toDate()
             };
         },
-
+        // dayCount: 4,
+        duration: {days: dayCount},
         allDaySlot: false,
         editable: false,
         slotDuration: '00:30:00',

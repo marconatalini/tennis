@@ -1,0 +1,17 @@
+<img src="{{ absolute_url(asset('build/images/LogoFantecoloTennis.png')) }}" alt="home logo" width="72" height="72">
+<h3>Registrazione utente.</h3>
+
+<p>Ciao {{ name }},<br>
+    siamo lieti che tu abbia deciso di unirti al ns. gruppo di appassionati di tennis di livello scarso!</p>
+
+<p>Regolamento:</p>
+<ul>
+    <li> lascia il campo come l'hai trovato, se non meglio. </li>
+    <li> puoi prenotare 1 volta al giorno, per 1 o 2 ore </li>
+    <li> gioca le ore che prenoti o cancellale appena sai di non poterle usare.</li>
+    <li> se occupi il campo libero, clicca sul tasto verde "GIOCA 1 ORA ADESSO"</li>
+    <li> puoi giocare quando vuoi, senza prenotare né occupare il campo, ma la precendenza l'avrà chi prenota e dovrai lasciare il campo in pochi minuti.</li>
+</ul>
+
+<p>Clicca su questo <a href="{{ absolute_url(path('giocatore_attivazione'))}}?activation={{ activationLink }}&username={{ name }}">LINK</a>
+    per attivare il tuo accout.</p>
