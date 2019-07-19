@@ -85,7 +85,7 @@ class DefaultController extends AbstractController
     {
         $message = (new \Swift_Message('Fantecolo Tennis: contatto'))
             ->setFrom('noreply@fantecolotennis.it')
-            ->setTo('marconatalini.75@gmail.com')
+            ->setTo('staff@fantecolotennis.it')
             ->setBody(
                 $this->renderView('default/contatto.html.twig',[
                         'messaggio' => $txt,
