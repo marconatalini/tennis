@@ -25,8 +25,8 @@ body {
     height: 100%;
     background: url("../images/homeBW.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
-    background-color: black;
+    background-size: 120%;
+    background-color: #c5c5c5;
 }
 
 a.navbar-brand{

@@ -15,6 +15,7 @@ use App\Form\PrenotazioneType;
 use App\Repository\PrenotazioneRepository;
 use phpDocumentor\Reflection\Types\This;
 use App\Repository\UserRepository;
+use DateTimeZone;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,9 +91,14 @@ class PrenotazioneController extends AbstractController
             $prenotazione->setTitle($niks[array_rand($niks)]);
         }
 
+        $start = new \DateTime('now', new DateTimeZone('Europe/Rome'));
+        $end = clone $start;
+        date_modify($end, '+1 hour');
         $prenotazione->setUser($user)
-            ->setStart(new \DateTime('now +2 hour'))
-            ->setEnd(new \DateTime('now +3 hour'))
+//            ->setStart(new \DateTime('now +2 hour'))
+//            ->setEnd(new \DateTime('now +3 hour'))
+            ->setStart($start)
+            ->setEnd($end)
             ->setTimestamp()
             ;
 
