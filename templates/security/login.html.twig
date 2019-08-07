@@ -42,16 +42,13 @@
         </div>
 
         <button class="btn btn-primary btn-block" type="submit">
-            Sign in
+            Entra
         </button>
 
-        <a class="btn btn-success btn-block" href="{{ path('prenotazione_prenota_adesso') }}">
-            Gioca 1 ora adesso
-        </a>
         {% if error %}
-            <div>
-                <a class="ml-auto" href="{{ path('giocatore_recuperaPassword') }}">Password dimenticata?</a>
-                <p class="small"> oppure <a href="{{ path('giocatore_registrazione') }}">Registrati GRATIS</a></p>
+            <div class="ml-auto">
+                <a href="{{ path('giocatore_recuperaPassword') }}">Ho dimenticato la password.</a>
+                <p> oppure <a href="{{ path('giocatore_registrazione') }}">Registrati GRATIS</a></p>
             </div>
         {% endif %}
 

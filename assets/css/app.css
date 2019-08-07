@@ -23,10 +23,19 @@
 body {
     font-family: 'Roboto', serif;
     height: 100%;
-    background: url("../images/homeBW.jpg");
-    background-repeat: no-repeat;
-    background-size: 120%;
+    /*background: url("../images/homeBW.jpg");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 120%;*/
     background-color: #c5c5c5;
+}
+
+#backgroud-imgage{
+    width: auto;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -99;
 }
 
 a.navbar-brand{
