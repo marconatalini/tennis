@@ -5,21 +5,98 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 
 import moment from "moment";
 
-document.addEventListener('DOMContentLoaded', function() {
-    let calendarEl = document.getElementById('calendar');
+/**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the paramiters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+function post(path, params, method='post') {
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    const form = document.createElement('form');
+    form.method = method;
+    form.action = path;
+
+    for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = key;
+            hiddenField.value = params[key];
+
+            form.appendChild(hiddenField);
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// window.location.replace('http://www.example.com')
+btnPrenota = document.getElementById('btnPrenota');
+function prenota(ora){
+    //window.location.replace(btnPrenota.getAttribute('href').concat('?ora=').concat(ora))
+    post(btnPrenota.getAttribute('href'), {ora: ora});
+}
+
+// window.location.replace('http://www.example.com')
+btnElimina = document.getElementById('btnElimina');
+let ids = document.querySelector('.prenotazioniUser').dataset.idsPrenotazioniGiocatore;
+let prenotatoId = document.querySelector('.prenotazioniOggiUser').dataset.prenotazioniOggi;
+
+console.log("ids prenotazioni USER", ids);
+console.log("id prenotazione di oggi", prenotatoId);
+console.log(Array.from(prenotatoId).length);
+console.log(JSON.parse(prenotatoId).length);
+
+export function giaPrenotato() {
+    let prenotato = false;
+    if (JSON.parse(prenotatoId).length > 0){
+        prenotato = true;
+    }
+    return prenotato;
+}
+
+function checkId(id) {
+    let trovato = false;
+    console.log('Controllo se ho ID: ' + id);
+    JSON.parse(ids).forEach(function (el) {
+        console.log(el.id.toString(), id);
+        if (el.id.toString() === id){
+            trovato = true;
+        }
+    });
+    console.log('fine controllo: ' + id);
+    return trovato;
+}
+
+function elimina(id){
+    //window.location.replace(btnElimina.getAttribute('href').concat('?id=').concat(id))
+    post(btnElimina.getAttribute('href'), {id: id});
+}
+
+function getColonne() {
     let width = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;
 
-    let height = window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight;
+    let colonne = 7;
 
-    let dayCount = 5;
-
-    if (width<355){
-        dayCount = 3
+    if (width<960){
+        colonne = 5
     }
+
+    if (width<370){
+        colonne = 3
+    }
+
+    return colonne;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    let calendarEl = document.getElementById('calendar');
 
     let urlJson = document.getElementById('urlPrenotazioniJson');
     let urlJsonUser = document.getElementById('urlPrenotazioniJsonUser');
@@ -27,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let calendar = new Calendar(calendarEl, {
         locale: 'it',
         timeZone: 'Europe/Rome',
+        // aspectRatio: 1,
         contentHeight: 'auto',
         plugins: [ timeGridPlugin, interactionPlugin, bootstrapPlugin ],
         themeSystem: 'bootstrap',
@@ -38,18 +116,13 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'next',
         },
 
-        // windowResize: function(view) {
-        //     alert(view.duration);
-        // },
-
         validRange: function(nowDate) {
             return {
                 start: moment().add(-7, 'days').toDate(),
                 end: moment().add(10,'days').toDate()
             };
         },
-        // dayCount: 4,
-        duration: {days: dayCount},
+        duration: {days: getColonne()},
         allDaySlot: false,
         editable: false,
         slotDuration: '00:30:00',
@@ -101,11 +174,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // change the border color just for fun
             info.el.style.borderColor = 'red';
-        }
+        },
+
     });
 
     calendar.render();
     calendar.updateSize();
 });
+
 
 require('../css/tabellone.css');

@@ -9,6 +9,7 @@ import 'jquery'
 import 'popper.js/dist/popper'
 import 'bootstrap/dist/js/bootstrap'
 
+
 // any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.css');
 

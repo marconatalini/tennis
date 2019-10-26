@@ -10,8 +10,10 @@
     {% endblock %}
 </head>
 <body class="d-flex flex-column h-100 text-center">
-<img src="{{ asset('build/images/homeBW.jpg')}}" id="backgroud-imgage">
-<nav class="navbar navbar-expand-md navbar-light">
+<div class="bg-mask"></div>
+
+{#<img src="{{ asset('build/images/homeBW.jpg')}}" id="backgroud-imgage">#}
+<nav class="navbar navbar-expand-md navbar-dark">
     <a class="navbar-brand" href="{{ path('home') }}"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,8 +57,8 @@
     {% endfor %}
 </div>
 {% block body %}
-
 {% endblock %}
+
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
