@@ -43,6 +43,11 @@ class PrenotazioneController extends AbstractController
      */
     public function index(PrenotazioneRepository $prenotazioneRepository)
     {
+        /*if (new \DateTime() >= new \DateTime('2020-03-01')) {
+            $this->addFlash('danger', 'Campo chiuso per manutenzione. Riprova più avanti.');
+            return $this->redirectToRoute('home');
+        }*/
+
         $user = $this->getUser();
         $idsPrenotazioniGiocatore = $prenotazioneRepository->findIdsPrenotati($user);
         $prenotazioniOggi = $prenotazioneRepository->findPrenotazioneOggi($user);

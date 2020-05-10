@@ -35,14 +35,15 @@ function post(path, params, method='post') {
 }
 
 // window.location.replace('http://www.example.com')
-btnPrenota = document.getElementById('btnPrenota');
+let btnPrenota = document.getElementById('btnPrenota');
+
 function prenota(ora){
     //window.location.replace(btnPrenota.getAttribute('href').concat('?ora=').concat(ora))
     post(btnPrenota.getAttribute('href'), {ora: ora});
 }
 
 // window.location.replace('http://www.example.com')
-btnElimina = document.getElementById('btnElimina');
+let btnElimina = document.getElementById('btnElimina');
 let ids = document.querySelector('.prenotazioniUser').dataset.idsPrenotazioniGiocatore;
 let prenotatoId = document.querySelector('.prenotazioniOggiUser').dataset.prenotazioniOggi;
 
