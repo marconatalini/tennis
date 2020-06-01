@@ -134,9 +134,11 @@ class PrenotazioneController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
 
+            $title = $this->censura($prenotazione->getTitle());
             $prenotazione = $form->getData();
             $prenotazione->setUser($this->getUser());
-            $prenotazione->setTitle($this->getUser()->getUsername(). ': '. $prenotazione->getTitle());
+//            $prenotazione->setTitle($this->getUser()->getUsername(). 'Vs '. $prenotazione->getTitle());
+            $prenotazione->setTitle($this->getUser()->getUsername(). ' Vs '. $title);
             $ore = $request->get('prenotazione')['ore'];
             $end =  clone $prenotazione->getStart();
             date_modify($end, "+". $ore ." hour");
@@ -215,4 +217,21 @@ class PrenotazioneController extends AbstractController
         $this->mailer->send($message);
     }
 
+    private function censura($testo = ""){
+        $badword = file("badword.txt", FILE_IGNORE_NEW_LINES);
+        $new = "";
+
+//        dd($badword);
+
+        $word_array = explode(" ", $testo);
+        foreach ($word_array as $item) {
+            if (array_search($item, $badword)) {
+                $new = $new . " !!@@##";
+            } else {
+                $new = $new . " " . $item;
+            }
+        }
+
+        return $new;
+    }
 }
