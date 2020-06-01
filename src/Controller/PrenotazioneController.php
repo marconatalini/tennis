@@ -138,7 +138,7 @@ class PrenotazioneController extends AbstractController
             $prenotazione = $form->getData();
             $prenotazione->setUser($this->getUser());
 //            $prenotazione->setTitle($this->getUser()->getUsername(). 'Vs '. $prenotazione->getTitle());
-            $prenotazione->setTitle($this->getUser()->getUsername(). ' Vs '. $title);
+            $prenotazione->setTitle($this->getUser()->getUsername() . $title);
             $ore = $request->get('prenotazione')['ore'];
             $end =  clone $prenotazione->getStart();
             date_modify($end, "+". $ore ." hour");
@@ -230,6 +230,10 @@ class PrenotazioneController extends AbstractController
             } else {
                 $new = $new . " " . $item;
             }
+        }
+
+        if ($new !== "") {
+            return " Vs " . $new;
         }
 
         return $new;
