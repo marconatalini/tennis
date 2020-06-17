@@ -50,9 +50,10 @@ class PrenotazioneController extends AbstractController
 
         $user = $this->getUser();
         $idsPrenotazioniGiocatore = $prenotazioneRepository->findIdsPrenotati($user);
-        $prenotazioniOggi = $prenotazioneRepository->findPrenotazioneOggi($user);
+//        $prenotazioniOggi = $prenotazioneRepository->findPrenotazioneOggi($user);
+        $prenotazioniOggi = $prenotazioneRepository->findPrenotazioniLast24ore($user);
 
-        //var_dump($prenotazioniOggi);die;
+//        var_dump($prenotazioniOggi);die;
 
         return $this->render('tabellone/tabellone.html.twig', [
             'idsPrenotazioniGiocatore' => $idsPrenotazioniGiocatore,
@@ -146,8 +147,8 @@ class PrenotazioneController extends AbstractController
             $prenotazione->setTimestamp();
             $mail = $request->get('prenotazione')['email'];
 
-            if ($prenotazioneRepository->findPrenotazioneOggi($this->getUser()) !== []){
-                $this->addFlash('danger', 'Spiacenti, hai già fatto una prenotazione oggi.');
+            if ($prenotazioneRepository->findPrenotazioniLast24ore($this->getUser()) !== []){
+                $this->addFlash('danger', 'Spiacenti, hai già fatto una prenotazione nelle ultime 36 ore.');
             } elseif ($prenotazioneRepository->findOverlap($prenotazione->getStart(), $end) !== []) {
                 $this->addFlash('danger', 'Spiacenti, il campo è già occupato.');
             }else{

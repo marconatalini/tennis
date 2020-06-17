@@ -84,6 +84,18 @@ class PrenotazioneRepository extends ServiceEntityRepository
 
     }
 
+    public function findPrenotazioniLast24ore($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.id')
+            ->where('p.timestamp >= :inizio')
+            ->andWhere('p.user = :user')
+            ->setParameter('inizio', new \DateTime('now -36 hours'))
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * @param $end \DateTime
      * @param $start \DateTime

@@ -139,21 +139,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 // url: 'http://tennis.locale/prenotazione/jsonUser',
                 url: urlJsonUser.getAttribute('href'),
                 method: 'POST',
-                color: 'blue'
+                color: 'orangered'
             },
         ],
 
         dateClick: function(info) {
             // alert('Clicked on: ' + moment(info.date).hour());
-            if (moment(info.date).hour() == 15 || moment(info.date).hour() == 16){
+            /*if (moment(info.date).hour() == 15 || moment(info.date).hour() == 16){
                 alert('Non prenotare in queste ore. Meglio far silenzio.')
             } else {
-                if (moment(info.date) > moment()) { // verifico che il click non sia sul passato
-                    if (!giaPrenotato()) {
-                        prenota(info.dateStr);
-                    } else {
-                        alert('Oggi hai già fatto una prenotazione.');
-                    }
+
+            }*/
+
+            if (moment(info.date) > moment()) { // verifico che il click non sia sul passato
+                if (!giaPrenotato()) {
+                    prenota(info.dateStr);
+                } else {
+                    alert('Hai già prenotato nelle ultime 36 ore');
                 }
             }
 
@@ -174,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             // change the border color just for fun
-            info.el.style.borderColor = 'red';
+            // info.el.style.borderColor = 'red';
         },
 
     });
