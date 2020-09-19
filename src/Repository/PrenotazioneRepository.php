@@ -3,10 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Prenotazione;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\AbstractQuery;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Prenotazione|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class PrenotazioneRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Prenotazione::class);
     }
