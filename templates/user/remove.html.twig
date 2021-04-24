@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container text-center">
+        <h1 class="display-4">Modifica profilo</h1>
+        <p>In questa pagina puoi cancellare il tuo account. Ogni tuo dato personale in ns. possesso sarà cancellato.<br>
+            Per tornare a prenotare dovrai ricreare un nuovo account, anche con la stessa email.</p>
+        <p>Per procedere clicca il tasto qui sotto</p>
+        <a class="btn btn-outline-danger mt-5" href="{{ path('giocatore_elimina', {'activationKey': key}) }}">ELIMINA</a>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('contatto') }}
+{% endblock %}

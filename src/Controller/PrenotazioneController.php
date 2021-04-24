@@ -13,12 +13,12 @@ use App\Entity\Prenotazione;
 use App\Entity\User;
 use App\Form\PrenotazioneType;
 use App\Repository\PrenotazioneRepository;
-use phpDocumentor\Reflection\Types\This;
 use App\Repository\UserRepository;
 use DateTimeZone;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -31,11 +31,16 @@ class PrenotazioneController extends AbstractController
      * @var \Swift_Mailer
      */
     private $mailer;
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(\Swift_Mailer $mailer, SessionInterface $session)
     {
 
         $this->mailer = $mailer;
+        $this->session = $session;
     }
 
     /**
@@ -43,10 +48,10 @@ class PrenotazioneController extends AbstractController
      */
     public function index(PrenotazioneRepository $prenotazioneRepository)
     {
-        /*if (new \DateTime() >= new \DateTime('2020-03-01')) {
-            $this->addFlash('danger', 'Campo chiuso per manutenzione. Riprova più avanti.');
+        if (new \DateTime() >= new \DateTime('2021-03-04')) {
+            $this->addFlash('danger', "Non è attualmente consentito l'uso del campo. Ordinanza 714 del 04.03.21 Regione Lombardia");
             return $this->redirectToRoute('home');
-        }*/
+        }
 
         $user = $this->getUser();
         $idsPrenotazioniGiocatore = $prenotazioneRepository->findIdsPrenotati($user);
@@ -80,10 +85,35 @@ class PrenotazioneController extends AbstractController
     }
 
     /**
+     * @Route("/liberacampo", name="prenotazione_libera_campo")
+     */
+    public function liberaCampo(PrenotazioneRepository $prenotazioneRepository)
+    {
+        /* @var Prenotazione $prenotazione */
+        $prenotazione = $prenotazioneRepository->findCurrent();
+
+        if ($prenotazione !== null && $this->session->get('prenotato') == 'prenotato'){
+            $prenotazione->setEnd(new \DateTime('now', new DateTimeZone('Europe/Rome')));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($prenotazione);
+            $em->flush();
+            $this->addFlash('info', 'Campo libero. Grazie.');
+            $this->session->remove('prenotato');
+        }
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
      * @Route("/giocoadesso", name="prenotazione_prenota_adesso")
      */
     public function prenotaAdessoUnOra(UserRepository $repository, PrenotazioneRepository $prenotazioneRepository)
     {
+        if ($this->session->get('prenotato') !== null){
+            $this->addFlash('info', "Stai già occupando il campo. Liberalo se hai finito.");
+            return $this->redirectToRoute('home');
+        }
+
         /** @var  $prenotazione Prenotazione*/
         $prenotazione = new Prenotazione();
 
@@ -93,7 +123,9 @@ class PrenotazioneController extends AbstractController
             $prenotazione->setTitle('ora gioca: '.$user->getUsername());
         } else {
             $user = $repository->find(1);
-            $niks = ['Roger', 'Nole', 'Rafa', 'Delpo', 'Andree', 'Pit', 'Martina', 'Flavia', 'Serena'];
+            $niks = [
+                'novak djokovic','rafael nadal','daniil medvedev','dominic thiem','roger federer','stefanos tsitsipas','alexander zverev','andrey rublev','diego schwartzman','matteo berrettini','denis shapovalov','gael monfils','roberto bautista agut','david goffin','milos raonic','pablo carreno busta','grigor dimitrov','fabio fognini','felix auger aliassime','stan wawrinka','karen khachanov','cristian garin','alex de minaur','casper ruud','john isner','borna coric','dusan lajovic','daniel evans','benoit paire','hubert hurkacz','ugo humbert','filip krajinovic','taylor fritz','jannik sinner','lorenzo sonego','adrian mannarino','jan lennard struff','reilly opelka','john millman','nikoloz basilashvili','marin cilic','miomir kecmanovic','alexander bublik','aslan karatsev','kei nishikori','albert ramos vinolas','guido pella','nick kyrgios','richard gasquet','jordan thompson','alejandro davidovich fokina','kyle edmund','tennys sandgren','yoshihito nishioka','sam querrey','tommy paul','pablo andujar','feliciano lopez','marton fucsovics','laslo djere','aljaz bedene','frances tiafoe','stefano travaglia','jeremy chardy','cameron norrie','jo wilfried tsonga','vasek pospisil','jiri vesely','gilles simon','fernando verdasco','dominik koepfer','corentin moutet','pablo cuevas','thiago monteiro','radu albot','egor gerasimov','ricardas berankis','soonwoo kwon','salvatore caruso','marcos giron','lucas pouille','alexei popyrin','steve johnson','lloyd harris','federico coria','federico delbonis','emil ruusuvuori','kevin anderson','marco cecchinato','juan ignacio londero','pedro martinez','sebastian korda','pierre hugues herbert','mikael ymer','norbert gombos','mikhail kukushkin','roberto carballes baena','dennis novak','attila balazs','joao sousa'
+            ];
             $prenotazione->setTitle($niks[array_rand($niks)]);
         }
 
@@ -117,7 +149,11 @@ class PrenotazioneController extends AbstractController
         $em->persist($prenotazione);
         $em->flush();
 
-        return $this->redirectToRoute('prenotazione_index');
+        $this->addFlash('info', "Hai occupato il campo per 1 ora. Buon divertimento.");
+        //set prenotato in current session
+        $this->session->set('prenotato', 'prenotato');
+
+        return $this->redirectToRoute('home');
 
     }
 

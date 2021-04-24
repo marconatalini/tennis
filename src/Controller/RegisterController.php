@@ -13,6 +13,7 @@ use App\Form\PasswordType;
 use App\Form\RestoreType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -187,5 +188,34 @@ class RegisterController extends AbstractController
     }
 
 
+
+    /**
+     * @Route("/remove", name="giocatore_elimina")
+     * @IsGranted("ROLE_USER")
+     */
+    public function remove(Request $request)
+    {
+
+        $user = $this->getUser();
+        $name = $user->getUsername();
+        $key = $request->get('activationKey');
+
+        if ($key !== null){
+
+            if ($key == $user->getActivationKey()){
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($user);
+                $em->flush();
+
+                return $this->redirectToRoute('app_logout',[
+                    'action' => 'removeuser'
+                ]);
+            }
+        }
+
+        return $this->render('user/remove.html.twig', [
+            'key' => $user->getActivationKey()
+        ]);
+    }
 
 }

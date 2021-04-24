@@ -22,6 +22,7 @@ Encore
     .addEntry('tabellone', './assets/js/tabellone.js')
     .addEntry('login', './assets/js/login.js')
     .addEntry('contatto', './assets/js/contatto.js')
+    .addEntry('fullpage', './assets/js/fullpage.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

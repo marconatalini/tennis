@@ -1,0 +1,36 @@
+img.gs-logo{
+    width: 80%;
+    max-width: 300px;
+    height: auto;
+}
+
+footer {
+    background-color: rgba(255,255,255,0.4);
+    color: black;
+    border-radius: 1rem 1rem 0 0;
+}
+
+footer a {
+    color: black;
+}
+
+footer ul{
+    font-size: 0.7rem;
+}
+
+/*
+ * Extra utilities
+ */
+
+.flex-equal > * {
+    -ms-flex: 1;
+    flex: 1;
+}
+@media (min-width: 768px) {
+    .flex-md-equal > * {
+        -ms-flex: 1;
+        flex: 1;
+    }
+}
+
+.overflow-hidden { overflow: hidden; }

@@ -23,7 +23,10 @@ security:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
             logout:
+                invalidate_session: false
                 path: app_logout
+                success_handler: App\Security\LogoutSuccessHandler
+
 
             # activate different ways to authenticate
 

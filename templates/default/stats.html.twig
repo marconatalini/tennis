@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+    <span id="oreUser" data-stats={{ oreUser|json_encode }}></span>
+    <span id="oreAnyone" data-stats={{ oreAnyone|json_encode }}></span>
+    <canvas id="myChart"></canvas>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <script type="text/javascript">
+        function getType() {
+            let width = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
+
+            if (width<420) {
+                return 'horizontalBar';
+            } else {
+                return 'bar'
+            }
+        }
+
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let datasets1 = JSON.parse(document.getElementById('oreUser').dataset.stats);
+        let datasets2 = JSON.parse(document.getElementById('oreAnyone').dataset.stats);
+
+        let labels = [];
+
+        let oreUser = [];
+        let oreAnyone = [];
+
+        for (const e of datasets1){
+            labels.push(e.mese + "/" + e.anno.substring(2));
+            oreUser.push(e.ore);
+        }
+
+        for (const e of datasets2){
+            oreAnyone.push(e.ore);
+        }
+
+        let chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: getType(),
+
+            // The data for our dataset
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'ore utenti',
+                    backgroundColor: 'rgb(211, 82, 32)',
+                    borderColor: 'rgb(211, 82, 32)',
+                    data: oreUser
+                },{
+                    label: 'ore anonime',
+                    backgroundColor: 'rgb(5, 72, 47)',
+                    borderColor: 'rgb(5, 72, 47)',
+                    data: oreAnyone
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                aspectRatio: window.innerWidth/window.innerHeight,
+            }
+        });
+    </script>
+
+{% endblock %}
+

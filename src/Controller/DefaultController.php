@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Contatto;
 use App\Form\ContattoType;
+use App\Repository\PrenotazioneRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,8 @@ class DefaultController extends AbstractController
     {
         $count = $userRepository->countPlayer();
 
-        return $this->render('default/home.html.twig', [
+//        return $this->render('default/home.html.twig', [
+        return $this->render('default/fullpage.html.twig', [
             'count' => $count
         ]);
     }
@@ -96,5 +98,20 @@ class DefaultController extends AbstractController
             );
 
         $this->mailer->send($message);
+    }
+
+    /**
+     * @Route("/stats", name="statistiche")
+     */
+
+    public function statistiche(PrenotazioneRepository $prenotazioneRepository)
+    {
+        $oreUsers = $prenotazioneRepository->orePrenotateAnnoMeseUser();
+        $oreAnyone = $prenotazioneRepository->orePrenotateAnnoMeseAnyone();
+
+        return $this->render('default/stats.html.twig', [
+            'oreUser' => $oreUsers,
+            'oreAnyone' => $oreAnyone
+        ]);
     }
 }

@@ -15,9 +15,15 @@
         <p class="small">Siamo in <strong>{{ count }}</strong> iscritti. Unisciti a noi!</p>
         <a href="{{ path('prenotazione_index') }}" class="btn btn-primary">Prenota</a>
         <a href="{{ path('prenotazione_prenota_adesso') }}" class="btn btn-success">Gioca 1 ora adesso</a>
+        {% if app.session.get('prenotato') is defined %}
+            <a href="#" class="btn btn-success">STOP</a>
+            {% else %}
+                <a href="#" class="btn btn-success">VAI</a>
+        {% endif %}
     </main>
 
     <footer class="footer mt-auto py-3">
+        <h1>{{ app.session.get('prenotato')}}</h1>
         <p>Sito realizzato da <a href="www.linkedin.com/in/marco-natalini-44328570" target="_blank">Marco Natalini</a></p>
     </footer>
 

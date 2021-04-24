@@ -128,6 +128,36 @@ class PrenotazioneRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return Prenotazione[]
+     */
+    public function findCurrent()
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where('CURRENT_TIMESTAMP() BETWEEN p.start AND p.end')
+//            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    public function orePrenotateAnnoMeseUser()
+    {
+        $sql = "select year(p.start) as anno, month(p.start) as mese, count(id) as prenotazioni, sum(hour(timediff(p.end, p.start))) as ore 
+from prenotazione p where user_id <> 1 group by anno, mese;";
+        $conn = $this->getEntityManager()->getConnection();
+        return $conn->fetchAll($sql);
+    }
+
+    public function orePrenotateAnnoMeseAnyone()
+    {
+        $sql = "select year(p.start) as anno, month(p.start) as mese, count(id) as prenotazioni, sum(hour(timediff(p.end, p.start))) as ore 
+from prenotazione p where user_id = 1 group by anno, mese;";
+        $conn = $this->getEntityManager()->getConnection();
+        return $conn->fetchAll($sql);
+    }
+
+
     // /**
     //  * @return Prenotazione[] Returns an array of Prenotazione objects
     //  */

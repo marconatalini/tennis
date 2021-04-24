@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('fullpage')}}
+{% endblock %}
+
+{% block bodyclass %}{% endblock %}
+
+{% block body %}
+<div class="position-relative overflow-hidden p-3 p-md-0 m-md-0 text-center">
+    <div class="col-md-8 mx-auto my-2">
+        <h1 class="display-4 font-weight-normal">Fantecolo TENNIS</h1>
+        <img class="gs-logo" src="{{ asset('build/images/LogoGSfantecolo.png') }}" alt="">
+        <p class="lead font-weight-normal">Prenotazioni campo tennis di Fantecolo di Provaglio d'Iseo. Iscriviti e prenota GRATIS il ns. campo da tennis.</p>
+        <a href="{{ path('prenotazione_index') }}" class="btn btn-outline-primary">Prenota</a>
+
+        {% if app.session.get('prenotato') is null %}
+            <a href="{{ path('prenotazione_prenota_adesso') }}" class="btn btn-outline-success">Gioca 1 ora adesso</a>
+        {% else %}
+            <a href="{{ path('prenotazione_libera_campo') }}" class="btn btn-outline-success">Libera il campo</a>
+        {% endif %}
+
+        <p class="small">Siamo in <strong>{{ count }}</strong> iscritti. Unisciti a noi!</p>
+    </div>
+</div>
+
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+    <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="">
+            <h2 class="display-5">Gioca in sicurezza</h2>
+            <p class="lead">Ricorda il distanziamento</p>
+        </div>
+        <img class="gs-logo" src="{{ asset('build/images/school_kid_res.png') }}" alt="">
+    </div>
+    <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="">
+            <h2 class="display-5">ATTENZIONE</h2>
+            <p class="lead">Covid-19 è ancora un pericolo.</p>
+        </div>
+        <img class="gs-logo" src="{{ asset('build/images/yellow_virus_cartoon_res.png') }}" alt="">
+    </div>
+</div>
+
+<footer class="container py-3">
+    <div class="row">
+        <div class="col-12 col-md">
+            <p>Sito realizzato da <a href="https://www.linkedin.com/in/marco-natalini-44328570" target="_blank">Marco Natalini</a></p>
+        </div>
+        <div class="col-12 col-md text-right">
+            <a href="#imagesCredit" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="imagesCredit">Image credits</a>
+            <div class="collapse" id="imagesCredit">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href='https://pngtree.com/so/bacteria-clipart'>bacteria clipart png from pngtree.com</a>
+                    </li>
+                    <li>
+                        <a href='https://pngtree.com/so/social-clipart'>social clipart png from pngtree.com</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('fullpage') }}
+{% endblock %}
